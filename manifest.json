@@ -1,0 +1,20 @@
+{
+    "manifest_version" : 3,
+    "name" : "Stas Extension",
+    "version": "1",
+    "content_scripts": [
+        {
+            "matches" : [
+                "<all_urls>"
+            ],
+            "css" : [
+                "lib/css/dataTables.css"
+            ],
+            "js" : [
+                "lib/js/jQuery.js",
+                "lib/js/dataTable.js",                
+                "core.js"
+            ]
+        }
+    ]
+}
