@@ -8,5 +8,6 @@ Ideas:
 
 - [ ] Password gen?
 - [ ] Find all links?
-- [ ] turn tables into jquery tables 
+- [x] turn tables into jquery tables 
+- [ ] turn a table into a line/bar chart
 

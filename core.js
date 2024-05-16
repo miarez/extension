@@ -1,15 +1,82 @@
 
+class Utils {
+    static getDomain(url) {
+        try {
+            const parsedUrl = new URL(url);
+            return parsedUrl.hostname;
+        } catch (error) {
+            console.error("Invalid URL: ", error);
+            return null;
+        }
+    }
+}
 
 class CoreExtension {
 
 
+    //inspired by: https://priyank-vaghela.github.io/Awesome-Bookmarklets/
+    //modified heavily with chatGPT
+    static notepad() {
+        var notepadWindow = window.open();
+        notepadWindow.document.open();
+        notepadWindow.document.write(`
+            <html>
+                <head>
+                    <title>Simple Notepad</title>
+                    <style>
+                        body { 
+                            background-color: black;
+                            color: white;
+                            font-family: DejaVu;
+                            font-weight:bold;
+                            font-size:1rem;
+                            line-height:1.4;
+                            margin:0 auto;
+                            padding:2rem;
+                        }
+                    </style>
+                </head>
+                <body contenteditable></body>
+            </html>
+        `);
+        notepadWindow.document.close();
+        notepadWindow.onload = function() {
+            notepadWindow.focus();
+            notepadWindow.document.body.focus();
+        };
+    }
+
+
+    static builtwith(){
+        //taken from https://priyank-vaghela.github.io/Awesome-Bookmarklets/
+        void(open('https://builtwith.com/?'+Utils.getDomain(location.href)));
+    }
+
+    static similarweb() {
+        //taken from https://priyank-vaghela.github.io/Awesome-Bookmarklets/
+        void(open('https://www.similarweb.com/website/'+Utils.getDomain(location.href)));
+    }
+
+    static proxy(){
+        //taken from https://priyank-vaghela.github.io/Awesome-Bookmarklets/
+        void(open('https://translate.google.co.in/translate?hl=en&sl=sq&tl=en&u='+location.href));
+    }
+
     static ttable(){
-        $('table').DataTable({
-            // Options to enable sorting and filtering
-            "paging": true,     // Enable pagination
-            "searching": true,  // Enable Search/Filtering
-            "ordering": true    // Enable sorting
+
+        $('table').each(function() {
+            try {
+                if (!$.fn.DataTable.isDataTable(this)) {
+                    $(this).DataTable({
+                        "paging": true,
+                        "searching": true,
+                        "ordering": true
+                    });;
+                }
+            } catch (error) {}
         });
+
+
     }
 
     static invert(){
