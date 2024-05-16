@@ -12,7 +12,161 @@ class Utils {
 }
 
 class CoreExtension {
+   
 
+    static draw() {
+        // This HTML will be created dynamically with JavaScript
+        const overlayHTML = `
+            <div id="canvas-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10000;">
+            <canvas id="drawing-canvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 85%;"></canvas>
+            <div style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 10001;">
+                <label for="color-picker">Color:</label>
+                <select id="color-picker">
+                <option value="white">White</option>                
+                <option value="black">Black</option>
+                <option value="red">Red</option>
+                <option value="green">Green</option>
+                <option value="blue">Blue</option>
+                <option value="yellow">Yellow</option>
+                </select>
+                <label for="width-picker">Stroke Width:</label>
+                <select id="width-picker">
+                <option value="1">1</option>
+                <option value="5">5</option>
+                <option value="10"selected>10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+                </select>
+                <button id="clear-canvas">Clear Canvas</button>
+                <button id="close-canvas">Close</button>
+            </div>
+            </div>`;
+
+
+        // Minimal CSS for visibility and positioning, embedded directly for simplicity
+        document.head.insertAdjacentHTML("beforeend", `
+            <style>
+            #drawing-canvas {
+                cursor: crosshair;
+            }
+            </style>
+        `);
+
+      // Append the overlay HTML to the body
+        document.body.insertAdjacentHTML("beforeend", overlayHTML);
+
+        // Setup the canvas for drawing
+        const canvas = document.getElementById('drawing-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight * 0.85; // Adjusted height
+
+        let drawing = false;
+        let strokeColor = 'white';
+        let strokeWidth = 10;
+
+        function startPosition(e) {
+        drawing = true;
+        draw(e);
+        }
+
+        function finishedPosition() {
+        drawing = false;
+        ctx.beginPath();
+        }
+
+        function draw(e) {
+        if (!drawing) return;
+        ctx.lineWidth = strokeWidth;
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = strokeColor;
+
+        ctx.lineTo(e.clientX, e.clientY);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(e.clientX, e.clientY);
+        }
+
+        // Event listeners for mouse
+        canvas.addEventListener('mousedown', startPosition);
+        canvas.addEventListener('mouseup', finishedPosition);
+        canvas.addEventListener('mousemove', draw);
+
+        // Event listener for color change
+        document.getElementById('color-picker').addEventListener('change', function(e) {
+        strokeColor = e.target.value;
+        });
+
+        // Event listener for stroke width change
+        document.getElementById('width-picker').addEventListener('change', function(e) {
+        strokeWidth = e.target.value;
+        });
+
+        // Clear canvas functionality
+        document.getElementById('clear-canvas').addEventListener('click', function() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        });
+
+        // Close button functionality
+        document.getElementById('close-canvas').addEventListener('click', function() {
+        document.getElementById('canvas-overlay').remove();
+        });
+
+
+
+
+
+    }
+
+    
+    static llinks() {
+        (function() {
+            // Create a new window and set up HTML structure
+            var w = window.open();
+            w.document.open();
+            var a = '<html><head><title>Links List</title></head><body>';
+    
+            // Initialize a dictionary to count domains
+            var domainCounts = {};
+    
+            let b = ''
+            // Start the first table for displaying links
+            b += '<table border="1"><tr><th>Text</th><th style="max-width: 40vw;">Link URL</th></tr>';
+            for (var ln = 0; ln < document.links.length; ln++) {
+                var lk = document.links[ln];
+                b += '<tr><td>' + lk.text + '</td><td style="max-width: 40vw;"><a target="_blank" href="' + lk.href + '">'+ lk.href + '</a></td></tr>';
+    
+                // Count domains
+                var domain = (new URL(lk.href)).hostname;
+                if (domainCounts[domain]) {
+                    domainCounts[domain]++;
+                } else {
+                    domainCounts[domain] = 1;
+                }
+            }
+            b += '</table>';  // End of the first table
+    
+            // Start the second table for domain counts
+            a += '<table border="1"><tr><th>Domain</th><th>Count</th></tr>';
+            for (var domain in domainCounts) {
+                a += '<tr><td>' + domain + '</td><td>' + domainCounts[domain] + '</td></tr>';
+            }
+            a += '</table>';  // End of the second table
+
+            a += b
+    
+            // Close the HTML document
+            a += '</body></html>';
+            w.document.write(a);
+            w.document.close();
+
+        })();
+    }
+    
+
+    static tinyurl(){
+        void(open("http://tinyurl.com/create.php?url=" +encodeURIComponent(location.href)))
+    }
 
     //inspired by: https://priyank-vaghela.github.io/Awesome-Bookmarklets/
     //modified heavily with chatGPT
