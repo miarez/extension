@@ -11,7 +11,66 @@ class Utils {
     }
 }
 
+function getRandomCharacter(characters) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    return characters[randomIndex];
+}
+
+
+
 class CoreExtension {
+
+
+    static pass() {
+
+        let length = 16;
+        const upperCase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const lowerCase = 'abcdefghijklmnopqrstuvwxyz';
+        const numbers = '0123456789';
+        const specialChars = '!@#$%^&*()-_=+[]{}|;:,.<>?';
+        const allChars = upperCase + lowerCase + numbers + specialChars;
+    
+        let password = '';
+        for (let i = 0; i < length; i++) {
+            const randomIndex = Math.floor(Math.random() * allChars.length);
+            password += allChars[randomIndex];
+        }
+   
+        navigator.clipboard.writeText(password);
+    }
+
+
+    static pass() {
+        let length = 16
+        const upperCase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const lowerCase = 'abcdefghijklmnopqrstuvwxyz';
+        const numbers = '0123456789';
+        const specialChars = '!@#$%^&*()-_=+[]{}|;:,.<>?';
+        const allChars = upperCase + lowerCase + numbers + specialChars;
+
+        // Ensure at least one of each required character type
+        let password = [
+            getRandomCharacter(upperCase),
+            getRandomCharacter(lowerCase),
+            getRandomCharacter(numbers),
+            getRandomCharacter(specialChars)
+        ];
+
+        // Fill the rest of the password length with random characters from all sets
+        for (let i = password.length; i < length; i++) {
+            password.push(getRandomCharacter(allChars));
+        }
+
+        // Shuffle the array to ensure the required characters are not in a predictable order
+        for (let i = password.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [password[i], password[j]] = [password[j], password[i]];
+        }
+
+        navigator.clipboard.writeText(password.join(''));
+
+    }
+    
    
 
     static draw() {
