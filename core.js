@@ -21,6 +21,14 @@ function getRandomCharacter(characters) {
 class CoreExtension {
 
 
+    static linkedin(){
+        navigator.clipboard.writeText("https://www.linkedin.com/in/miarez/");
+    }
+
+    static site(){
+        navigator.clipboard.writeText("https://stas.website");
+    }
+
     static pass() {
 
         let length = 16;
@@ -356,24 +364,38 @@ class CoreExtension {
 
 
 javascript:(function(){
-    var lastShift = 0;
+    var lastShiftTime = 0;
+    var shiftCount = 0;
+
     document.addEventListener('keydown', function(e) {
-      if (e.key === 'Shift') {
-        var now = Date.now();
-        if (now - lastShift < 500){
-            var cmd = prompt('Enter command:');      
-            if (cmd.startsWith('search ')) {
-                const query = cmd.slice('search '.length);
-                CoreExtension.search(query);
-            } else if (cmd.startsWith('define ')) {
-                const query = cmd.slice('define '.length);
-                CoreExtension.define(query);         
-            } else if (CoreExtension[cmd]) { 
-                CoreExtension[cmd]();
+        if (e.key === 'Shift') {
+            var now = Date.now();
+
+            if (now - lastShiftTime < 500 && shiftCount === 1) {
+                var cmd = prompt('Enter command:');      
+                if (cmd.startsWith('search ')) {
+                    const query = cmd.slice('search '.length);
+                    CoreExtension.search(query);
+                } else if (cmd.startsWith('define ')) {
+                    const query = cmd.slice('define '.length);
+                    CoreExtension.define(query);         
+                } else if (CoreExtension[cmd]) { 
+                    CoreExtension[cmd]();
+                }
+                shiftCount = 0; // Reset shift count after command
+            } else {
+                shiftCount = 1; // First shift press detected
             }
+
+            lastShiftTime = now;
+        } else {
+            shiftCount = 0; // Reset if any other key is pressed
         }
-        lastShift = now;
-      }
     });
-  })();
-  
+
+    document.addEventListener('keyup', function(e) {
+        if (e.key === 'Shift') {
+            // Allow next Shift press to be detected
+        }
+    });
+})();
