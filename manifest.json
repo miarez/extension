@@ -13,6 +13,7 @@
             "js" : [
                 "lib/js/jQuery.js",
                 "lib/js/dataTable.js",                
+                "Utils.js",
                 "core.js"
             ]
         }
