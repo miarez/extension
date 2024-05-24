@@ -2,7 +2,7 @@
 
 Hit shift + shift --> run command --> do magic 
 
-![alt text](readme-assets/demo.gif)
+![alt text](readme-assets/demo-vid.gif)
 
 ## About
 
