@@ -2,21 +2,33 @@
 
 class CoreExtension {
 
+    static quick_fill(val) {
+        navigator.clipboard.writeText(val);
+        const activeElement = document.activeElement;
+        if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA')) {
+            activeElement.value = val;
+        }
+    }
+
+    static email(){
+        CoreExtension.quick_fill(ENV.EMAIL)
+    }
+
+    static github(){
+        CoreExtension.quick_fill(ENV.GITHUB);
+    }
+
     static linkedin(){
-        navigator.clipboard.writeText("https://www.linkedin.com/in/miarez/");
+        CoreExtension.quick_fill(ENV.LINKEDIN);
     }
 
     static site(){
-        navigator.clipboard.writeText("https://stas.website");
+        CoreExtension.quick_fill(ENV.SITE);
     }
-
 
     static blurb(){
-        let text = `6 years ago I was hired as a programmer without knowing how to code. I grew into a key contributor, memorized every line of code, every business rule, and every column of every database. I ran the BI department, created the Customer Success Department, served as a principal member on the Security & Reliability teams, and was selected for the CTO’s R&D Team out of hundreds of devs.`+
-        `I’d love to jump into something new and learn something radically different, so I would love for you to give me a chance like Talent.com did all those years ago.` +
-        navigator.clipboard.writeText(text);
+        CoreExtension.quick_fill(ENV.BLURB);
     }
-
 
     static pass() {
 
