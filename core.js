@@ -45,7 +45,7 @@ class CoreExtension {
             password += allChars[randomIndex];
         }
    
-        navigator.clipboard.writeText(password);
+        CoreExtension.quick_fill(password);
     }
 
 

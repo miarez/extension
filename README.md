@@ -1,5 +1,9 @@
 # One Extension To Rule Them All
 
+Hit shift + shift --> run command --> do magic 
+
+![alt text](readme-assets/demo.gif)
+
 ## About
 
 A quick intro in what I learned in the process 
